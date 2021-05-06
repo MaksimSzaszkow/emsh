@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const express = require("express");
 const cors = require("cors");
-const Checker = require("./checks");
+const Javascript = require("./compilers/javascript");
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/javascript", (req, res) => {
-  const checker = new Checker(req.body.code);
+  const checker = new Javascript(req.body.code);
   res.json(checker.code);
 });
 

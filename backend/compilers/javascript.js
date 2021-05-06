@@ -2,16 +2,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
+const Emsh = require("./emsh");
 const { js_beautify } = require("js-beautify");
 const pythonFormat = require("python-format");
 
-class Checker {
-  currentDepth = 0;
-  variables = [];
-  functions = [];
-  code = "";
-
+class Javascript extends Emsh {
   constructor(pseudocode) {
+    super();
     const code = pseudocode.split("\n");
     let validCode = "";
     code.forEach((line) => {
@@ -69,43 +66,6 @@ class Checker {
     }
     this.code = js_beautify(`${validCode}`);
   }
-
-  isConditional(string) {
-    return /if .*/.test(string);
-  }
-
-  isAssigment(string) {
-    return /={1}/.test(string);
-  }
-
-  isPrint(string) {
-    return /log .*/.test(string);
-  }
-
-  isFunction(string) {
-    return /function .* for .* does/.test(string);
-  }
-
-  isForLoop(string) {
-    return /do .* times/.test(string);
-  }
-
-  isWhileLoop(string) {
-    return /while .* do/.test(string);
-  }
-
-  isReturn(string) {
-    return /return .*/.test(string);
-  }
-
-  howManyTabsAtStart(string) {
-    let amount = 0;
-    while (string.startsWith("\t")) {
-      amount++;
-      string = string.substring(1);
-    }
-    return [amount, string];
-  }
 }
 
-module.exports = Checker;
+module.exports = Javascript;

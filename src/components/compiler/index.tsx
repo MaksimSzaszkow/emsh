@@ -55,7 +55,9 @@ const Header: FunctionalComponent = () => {
         />
         <pre class={style.overview}>{compiled}</pre>
       </div>
-      <button onClick={sendCode}>Compile</button>
+      <button onClick={sendCode} class={style.compile}>
+        Compile
+      </button>
     </>
   );
 };

@@ -4,4 +4,17 @@
 
 .overview {
   padding: 0 1rem;
+  font-size: 1rem;
+}
+
+.compile {
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.7rem;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  color: white;
+  background: #272629;
+  width: 100%;
+  cursor: pointer;
 }
