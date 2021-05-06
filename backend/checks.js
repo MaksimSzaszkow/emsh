@@ -24,8 +24,18 @@ class Checker {
         validCode = `${validCode}}`;
         this.currentDepth = newDepth;
       }
-
-      if (this.isConditional(trimmedLine)) {
+      if (this.isFunction(trimmedLine)) {
+        const [func, paramsPart] = trimmedLine.split("for");
+        const params = paramsPart.slice(0, -4);
+        validCode = `${validCode}${func}(${params})`;
+      } else if (this.isForLoop(trimmedLine)) {
+        validCode = `${validCode}for(let i = 0; i < ${trimmedLine.slice(
+          3,
+          -6
+        )}; i++)`;
+      } else if (this.isWhileLoop(trimmedLine)) {
+        validCode = `${validCode}while(${trimmedLine.slice(6, -3)})`;
+      } else if (this.isConditional(trimmedLine)) {
         const condition = trimmedLine.split(" ").splice(1).join(" ");
         validCode = `${validCode}if(${condition})`;
       } else if (this.isAssigment(trimmedLine)) {
@@ -34,20 +44,22 @@ class Checker {
         if (index !== -1) {
           this.variables[index].value = value;
           this.variables[index].changes = true;
-          validCode = `${validCode}${variable}=${value};`;
+          validCode = `${validCode}${variable}=${value};\n`;
         } else {
           this.variables.push({
             name: variable,
             value,
             changes: false,
           });
-          validCode = `${validCode}let ${variable}=${value};`;
+          validCode = `${validCode}let ${variable}=${value};\n`;
         }
       } else if (this.isPrint(trimmedLine)) {
         const log = trimmedLine.split(" ").splice(1).join(" ");
-        validCode = `${validCode}console.log(${log});`;
+        validCode = `${validCode}console.log(${log});\n`;
+      } else if (trimmedLine === "") {
+        validCode = `${validCode}\n`;
       } else {
-        validCode = `${validCode}${trimmedLine};`;
+        validCode = `${validCode}${trimmedLine};\n`;
       }
     });
 
@@ -68,6 +80,22 @@ class Checker {
 
   isPrint(string) {
     return /log .*/.test(string);
+  }
+
+  isFunction(string) {
+    return /function .* for .* does/.test(string);
+  }
+
+  isForLoop(string) {
+    return /do .* times/.test(string);
+  }
+
+  isWhileLoop(string) {
+    return /while .* do/.test(string);
+  }
+
+  isReturn(string) {
+    return /return .*/.test(string);
   }
 
   howManyTabsAtStart(string) {

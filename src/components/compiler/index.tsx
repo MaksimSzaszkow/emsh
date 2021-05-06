@@ -1,11 +1,12 @@
 import { FunctionalComponent, h, Fragment } from "preact";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import React from "react";
 import style from "./style.module.css";
 
 const Header: FunctionalComponent = () => {
   const [code, setCode] = useState(`x = true\nif x\n\tlog "fajnie"`);
   const [compiled, setCompiled] = useState("");
+  const [selectionEnd, setSelectionEnd] = useState(0);
 
   const sendCode = async function (): Promise<void> {
     const response = await fetch("http://localhost:3000/javascript", {
@@ -21,10 +22,17 @@ const Header: FunctionalComponent = () => {
     setCompiled(newCode);
   };
 
+  useEffect(() => {
+    (document.getElementById(
+      "pseudocode"
+    ) as HTMLTextAreaElement).selectionEnd = selectionEnd;
+  }, [selectionEnd]);
+
   return (
     <>
       <div class={style.code}>
         <textarea
+          id="pseudocode"
           value={code}
           onKeyDown={(e): void => {
             if (e.key === "Tab") {
@@ -35,8 +43,10 @@ const Header: FunctionalComponent = () => {
                 0,
                 "\t"
               );
+              setSelectionEnd(
+                (e.target as HTMLTextAreaElement).selectionEnd + 1
+              );
               setCode(arr.join(""));
-              (e.target as HTMLTextAreaElement).selectionEnd = 0;
             }
           }}
           onInput={(e): void =>

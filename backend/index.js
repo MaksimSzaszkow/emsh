@@ -14,7 +14,6 @@ app.get("/", (req, res) => {
 
 app.post("/javascript", (req, res) => {
   const checker = new Checker(req.body.code);
-  console.log(checker.code);
   res.json(checker.code);
 });
 
