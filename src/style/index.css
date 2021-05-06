@@ -1,4 +1,3 @@
-html,
 body {
   height: 100%;
   width: 100%;
@@ -10,8 +9,13 @@ body {
   color: #444;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin-top: 1.5rem;
+  margin-top: 3.5rem;
   padding: 1rem;
+}
+
+textarea {
+  width: 50%;
+  height: 200px;
 }
 
 * {

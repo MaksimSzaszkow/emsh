@@ -1,9 +1,11 @@
 import { FunctionalComponent, h, Fragment } from "preact";
 import { useState } from "preact/hooks";
 import React from "react";
+import style from "./style.module.css";
 
 const Header: FunctionalComponent = () => {
-  const [code, setCode] = useState(`let x = true\nif x\n\tlog "fajnie"`);
+  const [code, setCode] = useState(`x = true\nif x\n\tlog "fajnie"`);
+  const [compiled, setCompiled] = useState("");
 
   const sendCode = async function (): Promise<void> {
     const response = await fetch("http://localhost:3000/javascript", {
@@ -15,25 +17,33 @@ const Header: FunctionalComponent = () => {
       body: JSON.stringify({ code }),
     });
     const newCode = await response.json();
-    console.log(newCode.code);
+
+    setCompiled(newCode);
   };
 
   return (
     <>
-      <div class="code">
+      <div class={style.code}>
         <textarea
           value={code}
           onKeyDown={(e): void => {
             if (e.key === "Tab") {
               e.preventDefault();
-              setCode(`${code}\t`);
+              const arr = code.split("");
+              arr.splice(
+                (e.target as HTMLTextAreaElement).selectionEnd,
+                0,
+                "\t"
+              );
+              setCode(arr.join(""));
+              (e.target as HTMLTextAreaElement).selectionEnd = 0;
             }
           }}
           onInput={(e): void =>
             setCode((e.target as HTMLTextAreaElement).value)
           }
         />
-        <div class="overview">{}</div>
+        <pre class={style.overview}>{compiled}</pre>
       </div>
       <button onClick={sendCode}>Compile</button>
     </>
