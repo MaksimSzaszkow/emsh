@@ -26,8 +26,8 @@ class Emsh {
   }
 
   isPrint(string) {
-    const medium = /^log(.*)$/;
-    const short = /^log .*/;
+    const medium = /^display(.*)$/;
+    const short = /^display .*/;
     return medium.test(string) || short.test(string);
   }
 
