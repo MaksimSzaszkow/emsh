@@ -4,12 +4,14 @@ import React from "react";
 import style from "./style.module.css";
 
 const Header: FunctionalComponent = () => {
-  const [code, setCode] = useState(`x = true\nif x\n\tlog "fajnie"`);
+  const [code, setCode] = useState(
+    `x = 5\ndo x times\n\tlog "fajnie"\nx = 7\nwhile x > 0 do\n\tlog "woooho"\n\tx--`
+  );
   const [compiled, setCompiled] = useState("");
   const [selectionEnd, setSelectionEnd] = useState(0);
 
   const sendCode = async function (): Promise<void> {
-    const response = await fetch("http://localhost:3000/javascript", {
+    const js = await fetch("http://localhost:3000/javascript", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -17,9 +19,17 @@ const Header: FunctionalComponent = () => {
       },
       body: JSON.stringify({ code }),
     });
-    const newCode = await response.json();
-
-    setCompiled(newCode);
+    const jsCode = await js.json();
+    const csharp = await fetch("http://localhost:3000/csharp", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code }),
+    });
+    const csharpCode = await csharp.json();
+    setCompiled(`JAVASCRIPT:\n\n${jsCode}\nC#:\n\n${csharpCode}`);
   };
 
   useEffect(() => {

@@ -32,9 +32,9 @@ class Emsh {
   }
 
   isSimpleForLoop(string) {
-    const long = /^do [0-9]* times$/;
-    const medium = /^[0-9]* times$/;
-    const short = /^[0-9]* t$/;
+    const long = /^do .* times$/;
+    const medium = /^.* times$/;
+    const short = /^.* t$/;
     return long.test(string) || medium.test(string) || short.test(string);
   }
 
@@ -63,6 +63,15 @@ class Emsh {
       string = string.substring(1);
     }
     return [amount, string];
+  }
+
+  generateTabs(depth) {
+    let tabs = "";
+    while (depth > 0) {
+      tabs += "\t";
+      depth--;
+    }
+    return tabs;
   }
 }
 

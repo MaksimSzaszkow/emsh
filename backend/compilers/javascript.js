@@ -25,6 +25,8 @@ class Javascript extends Emsh {
         const [func, paramsPart] = trimmedLine.split("for");
         const params = paramsPart.slice(0, -4);
         validCode = `${validCode}${func}(${params})`;
+      } else if (this.isSimpleForLoop(trimmedLine)) {
+        validCode += `for(let i = 0; i < ${trimmedLine.slice(3, -6)}; i++)`;
       } else if (this.isForLoop(trimmedLine)) {
         validCode = `${validCode}for(let i = 0; i < ${trimmedLine.slice(
           3,

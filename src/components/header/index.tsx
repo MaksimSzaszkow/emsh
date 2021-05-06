@@ -4,7 +4,7 @@ import style from "./style.css";
 const Header: FunctionalComponent = () => {
   return (
     <header class={style.header}>
-      <h1>M-lang compiler</h1>
+      <h1>Emsh compiler</h1>
     </header>
   );
 };

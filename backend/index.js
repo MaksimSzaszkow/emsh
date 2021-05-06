@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const Javascript = require("./compilers/javascript");
+const CSharp = require("./compilers//csharp");
 
 const app = express();
 
@@ -13,8 +14,11 @@ app.get("/", (req, res) => {
 });
 
 app.post("/javascript", (req, res) => {
-  const checker = new Javascript(req.body.code);
-  res.json(checker.code);
+  res.json(new Javascript(req.body.code).code);
+});
+
+app.post("/csharp", (req, res) => {
+  res.json(new CSharp(req.body.code).code);
 });
 
 app.listen(3000);

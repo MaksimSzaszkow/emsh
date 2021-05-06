@@ -1,6 +1,6 @@
 {
-  "name": "pseudocode-compiler",
-  "short_name": "pseudocode-compiler",
+  "name": "emsh-compiler",
+  "short_name": "emsh",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
