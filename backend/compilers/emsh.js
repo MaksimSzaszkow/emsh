@@ -2,154 +2,21 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-class EmshBaseChecks {
-  isAssigment(string) {
-    const long = / equals /;
-    const short = /={1}/;
-    return long.test(string) || short.test(string);
-  }
+const CoreChecks = require("./EmshCore/Checks");
 
-  isConditional(string) {
-    return /^if/.test(string);
-  }
-
-  isSimpleForLoop(string) {
-    const long = /^do .* times$/;
-    const medium = /^.* times$/;
-    const short = /^.* t$/;
-    return long.test(string) || medium.test(string) || short.test(string);
-  }
-
-  isNormalForLoop(string) {
-    const long = /^for .* while .* change .*/;
-    const medium = /^for *( *.* *; *.* *; *.* *)/;
-    const short = /^for .* .* .*/;
-    return long.test(string) || medium.test(string) || short.test(string);
-  }
-
-  isWhileLoop(string) {
-    const long = /while .* do/;
-    const medium = /while *(.*)/;
-    const short = /while .*/;
-    return long.test(string) || medium.test(string) || short.test(string);
-  }
-
-  isFunction(string) {
-    const long = /^function .* for .* does$/;
-    const medium = /^func .* *( *.* *)$/;
-    const short = /^f .* *( *.* *)$/;
-    return long.test(string) || medium.test(string) || short.test(string);
-  }
-
-  isDisplay(string) {
-    const medium = /^display(.*)$/;
-    const short = /^display .*/;
-    return medium.test(string) || short.test(string);
-  }
-
-  isReturn(string) {
-    return /return .*/.test(string);
-  }
-
-  isClass(string) {
-    return /^class .*/.test(string);
-  }
-
-  isModule(string) {
-    return /^module .*/.test(string);
-  }
-}
-
-class EmshVariable {
-  type = "variable";
-  name;
-}
-
-class EmshFunction {
-  type = "function";
-  name;
-  params;
-  body = [];
-
-  constructor(name, params = []) {
-    this.name = name;
-    this.params = params;
-  }
-}
-
-class EmshForLoop {
-  type = "forLoop";
-  varName;
-  condition;
-  step;
-  body = [];
-
-  constructor(varName, condition, step) {
-    this.varName = varName;
-    this.condition = condition;
-    this.step = step;
-  }
-}
-
-class EmshWhileLoop {
-  type = "whileLoop";
-  condition;
-  body = [];
-}
-
-class EmshClass {
-  type = "class";
-  name;
-  variables = {};
-  functions = {};
-
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-class EmshStruct {
-  type = "struct";
-  name;
-  fields;
-}
-
-class EmshModule {
-  type = "module";
-  name;
-  classes = {};
-  functions = {};
-  variables = {};
-
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-class EmshLine {
-  code;
-}
-
-class EmshDisplay {
-  type = "display";
-  message;
-
-  constructor(message) {
-    this.message = message;
-  }
-}
+const CoreTypes = require("./EmshCore/Types");
 
 class Emsh {
   EmshCode;
   EmshChecker;
-  EmshCodeObject = { main: new EmshModule("main") };
+  EmshCodeObject = { main: new CoreTypes.EmshModule("main") };
   currentDepth = 0;
   context = {
     type: "module",
     path: ["main"],
   };
 
-  constructor(EmshCode = "", EmshChecker = new EmshBaseChecks()) {
+  constructor(EmshCode = "", EmshChecker = new CoreChecks()) {
     this.EmshCode = EmshCode;
     this.EmshChecker = EmshChecker;
     this.createEmshCodeObject(this.EmshCode.split("\n"));
@@ -164,20 +31,22 @@ class Emsh {
 
       if (this.EmshChecker.isModule(trimmedLine)) {
         const [, name] = trimmedLine.split("module ");
-        this.EmshCodeObject[name] = new EmshModule(name);
+        this.EmshCodeObject[name] = new CoreTypes.EmshModule(name);
         this.context = { type: "module", path: [name] };
       } else if (this.EmshChecker.isClass(trimmedLine)) {
         const [, name] = trimmedLine.split("class ");
         if (this.currentDepth > 0) {
           this.EmshCodeObject[this.context.path[0]].classes[
             name
-          ] = new EmshClass(name);
+          ] = new CoreTypes.EmshClass(name);
           this.context = {
             type: "class",
             path: [...this.context.path, "classes", name],
           };
         } else {
-          this.EmshCodeObject.main.classes[name] = new EmshClass(name);
+          this.EmshCodeObject.main.classes[name] = new CoreTypes.EmshClass(
+            name
+          );
           this.context = { type: "class", path: ["main", "classes", name] };
         }
       } else if (this.EmshChecker.isFunction(trimmedLine)) {
@@ -186,7 +55,7 @@ class Emsh {
         const params = p.split(",").map((param) => param.trim());
         const c = this.getContextObject();
 
-        c.functions[name] = new EmshFunction(name, params);
+        c.functions[name] = new CoreTypes.EmshFunction(name, params);
 
         this.context = {
           type: "function",
@@ -199,7 +68,11 @@ class Emsh {
 
         c.body = [
           ...c.body,
-          new EmshForLoop("i", `i<${trimmedLine.split(" ")[1]}`, "i++"),
+          new CoreTypes.EmshForLoop(
+            "i",
+            `i<${trimmedLine.split(" ")[1]}`,
+            "i++"
+          ),
         ];
 
         this.context = {
@@ -214,7 +87,7 @@ class Emsh {
 
         c.body = [
           ...c.body,
-          new EmshDisplay(trimmedLine.split(" ").splice(1).join(" ")),
+          new CoreTypes.EmshDisplay(trimmedLine.split(" ").splice(1).join(" ")),
         ];
       }
     });
