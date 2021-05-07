@@ -14,11 +14,14 @@ app.get("/", (req, res) => {
 });
 
 app.post("/javascript", (req, res) => {
-  res.json(new Javascript(req.body.code).code);
+  const js = new Javascript(req.body.code);
+  res.json(js.code);
 });
 
 app.post("/csharp", (req, res) => {
-  res.json(new CSharp(req.body.code).code);
+  const csharp = new CSharp(req.body.code);
+  console.log(csharp.code);
+  res.json(csharp.code);
 });
 
 app.listen(3000);
