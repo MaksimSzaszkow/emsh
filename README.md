@@ -1,11 +1,11 @@
 # Emsh
 
-Emsh is a standard that describes how to generate valid code in any programming language from Emsh Code Object, while also defining Emsh Language that allows to write ECO's as if they were actual code that is executed. Emsh has four parts:
+Emsh is a set of tools that can be used to create solution to any programming problem in any supported programming language. It consists of four parts:
 
 - Emsh Language
 - Emsh Transpiler
 - Emsh Code Object (ECO)
-- Emsh Compiler
+- Emsh Generator
 
 ## Emsh Language
 
@@ -21,10 +21,10 @@ Emsh Transpiler is responsible for changing Emsh Language code into ECO. It's de
 
 ## Emsh Code Object
 
-ECO contains all information needed for compiler to change it into valid code of given language/framework. It's done by encoding every notable part of code into structs with properties that are sufficient to create it in chosen language.
+ECO contains all information needed for generator to change it into valid code of given language/framework. It's done by encoding every notable part of code into structs with properties that are sufficient to create it in chosen language.
 
 ECO is not supposed to compress code - only be a backbone from which code will be written in chosen language. One ECO is enought to get functionaly the same code in every supported language/framework.
 
-## Emsh Compiler
+## Emsh Generator
 
-Emsh Compiler is the part that changes ECO into valid code. It's modular design allows to create own compilation engine or extend provided in this repository.
+Emsh Generator is the part that changes ECO into valid code in chosen language/framework.
