@@ -23,7 +23,7 @@ Emsh Transpiler is responsible for changing Emsh Language code into ECO. It's de
 
 ECO contains all information needed for compiler to change it into valid code of given language/framework. It's done by encoding every notable part of code into structs with properties that are sufficient to create it in chosen language.
 
-ECO is not supposed to compress code - only to allow generating from it code valid in supported language/framework.
+ECO is not supposed to compress code - only be a backbone from which code will be written in chosen language. One ECO is enought to get functionaly the same code in every supported language/framework.
 
 ## Emsh Compiler
 
