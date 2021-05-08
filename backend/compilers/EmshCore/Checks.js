@@ -7,14 +7,22 @@ class CoreChecks {
   }
 
   isConditional(string) {
-    return /^if/.test(string);
+    const long = /if *(.*)/;
+    const short = /if ./;
+
+    if (long.test(string)) return { passed: true, type: "long" };
+    else if (short.test(string)) return { passed: true, type: "short" };
+    return { passed: false };
   }
 
   isSimpleForLoop(string) {
     const long = /^do .* times$/;
     const medium = /^.* times$/;
     const short = /^.* t$/;
-    return long.test(string) || medium.test(string) || short.test(string);
+    if (long.test(string)) return { passed: true, type: "long" };
+    else if (medium.test(string)) return { passed: true, type: "medium" };
+    else if (short.test(string)) return { passed: true, type: "short" };
+    return { passed: false };
   }
 
   isNormalForLoop(string) {

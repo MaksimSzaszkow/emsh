@@ -1,25 +1,30 @@
-# Emsh Language
+# Emsh
 
-Emsh language is pseudocode language (inspired by js and python syntax) that allows to generate valid code in actual programming languages. It's main goal is to speed up development by giving concise syntax that will be translated to language specific code.
+Emsh is a standard that describes how to generate valid code in any programming language from Emsh Code Object, while also defining Emsh Language that allows to write ECO's as if they were actual code that is executed. Emsh has four parts:
 
-Emsh allows not only to write in syntax resembling programming languages, but also in syntax that imitates spoken language by enabling usage of words instead of symbols ("=" can be replaced with "equals" and so on)
+- Emsh Language
+- Emsh Transpiler
+- Emsh Code Object (ECO)
+- Emsh Compiler
 
-Emsh tries to allow focusing on solving problem and leaving writing efficient code to human when the solution is found and base code is generated. Modular design of translators should allow for some language specific optimizations, but that's about it.
+## Emsh Language
 
-## Javascript
+Emsh language is higher level abstraction programming language, that is changed into ECO by Emsh Transpiler. It's main purpose is to provide easy and natural syntax, that allows creating solution that works as planned in any supported language or framework in no time - without the need to know the language or framework itself.
 
-### Basic features
+Emsh language should be thought of as programmers way of writing ECO's, as it's possible to write valid ECO without using Emsh Language - it just makes it easier and allows one to focus on solving the problem, without worrying about the details of valid ECO writing.
 
-### Advanced features
+Emsh language not only supports multiple (differently expressive) ways of coding the same, but also allows one to change keywords, making it possible to translate Emsh into any natural language.
 
-## React.js
+## Emsh Transpiler
 
-### Basic features
+Emsh Transpiler is responsible for changing Emsh Language code into ECO. It's design is modular, allowing easy replacement of EmshCore parts, but also expanding it so that it could develop with other languages and frameworks as the time goes.
 
-### Advanced features
+## Emsh Code Object
 
-## C#
+ECO contains all information needed for compiler to change it into valid code of given language/framework. It's done by encoding every notable part of code into structs with properties that are sufficient to create it in chosen language.
 
-### Basic features
+ECO is not supposed to compress code - only to allow generating from it code valid in supported language/framework.
 
-### Advanced features
+## Emsh Compiler
+
+Emsh Compiler is the part that changes ECO into valid code. It's modular design allows to create own compilation engine or extend provided in this repository.
