@@ -9,7 +9,7 @@ Emsh is a set of tools that allows focusing on creating solution that works in a
 
 ## Emsh Language
 
-Emsh language is high**er** level abstraction programming language, that is changed into ECO by Emsh Transpiler. It's main purpose is to provide easy and natural syntax, that allows creating solution that works as planned in any supported language or framework in no time - without the need to know the language or framework itself.
+Emsh language is **higher** level abstraction programming language, that is changed into ECO by Emsh Transpiler. It's main purpose is to provide easy and natural syntax, that allows creating solution that works as planned in any supported language or framework in no time - without the need to know the language or framework itself.
 
 Emsh language should be thought of as programmers way of writing ECO's, as it's possible to write valid ECO without using Emsh Language - it just makes it easier and allows one to focus on solving the problem, without worrying about the details of valid ECO writing.
 
@@ -30,7 +30,19 @@ module moduleName:
 
 ##### Importing
 
+```
+import x from y
+```
+
+```
+from y import x
+```
+
 ##### Exporting
+
+```
+export x
+```
 
 #### Class
 
