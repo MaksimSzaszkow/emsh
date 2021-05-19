@@ -203,7 +203,7 @@ Emsh Variables in first version will be treated as staticly typed. Maybe later v
 
 ### Emsh MVCPattern
 
-MVCPattern is transpiler that allows one to write code that will be compiled into popular frameworks like React, Vue or Angular or other implementations of MVP, like C# WPF.
+MVCPattern is transpiler that allows one to write code that will be compiled into popular frameworks like React, Vue or Angular or other implementations of MVC, like C# WPF.
 
 #### MVCPattern
 
