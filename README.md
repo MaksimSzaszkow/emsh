@@ -19,16 +19,25 @@ First version of Emsh Language will focus on implementing all of the features wi
 
 Emsh Core is set of functionalities that are supported by base version of Emsh Transpiler - it allows writing valid base code that will compile properly into vanilla versions of languages. While it's possible to create programming patterns with Emsh Core, it's limited as every language might do it very differently. Thats where other Emsh Transpilers will come to help. For now, let's focus on what Emsh Core can do.
 
-### Module
+### File
 
-Emsh Module is a box that can export any other supported feature - in JavaScript and Python it's equivalent is module, in Java it's package, in C# namespace. While these things are not the same, their purpose is very simillar and as such Emsh Core treats them as the same.
+File is representation of physical Emsh file.
+
+ECO:
 
 ```
-module moduleName:
-    // module contents
+{
+    type: "file",
+    name: string,
+    imports: Module[],
+    contains: Module[],
+    exports: Module[]
+}
 ```
 
 #### Importing
+
+Emsh:
 
 ```
 import x from y
@@ -44,18 +53,58 @@ from y import x
 export x
 ```
 
+### Module
+
+Emsh Module is a box that can export any other supported feature - in JavaScript and Python it's equivalent is module, in Java it's package, in C# namespace. While these things are not the same, their purpose is very simillar and as such Emsh Core treats them as the same.
+
+While it's possible to have variables, functions and classes on same level in some languages (JS and Python), it's not possible to achive in all of them (C# and Java). Thats why variables, functions and classes that don't belong to any module will be packed into module named `Main`.
+
+Emsh:
+
+```
+module moduleName:
+    // module contents
+```
+
+ECO:
+
+```
+{
+    type: "module",
+    name: string,
+    variables: Variable[],
+    functions: Function[],
+    classes: Class[]
+}
+```
+
 ### Class
 
 Emsh Class is OOP concept, if language supports it Emsh Compiler will try to implement it.
+
+Emsh:
 
 ```
 class className:
     // class contents
 ```
 
+ECO:
+
+```
+{
+    type: "class",
+    name: string,
+    variables: Variable[],
+    functions: Function[],
+}
+```
+
 ### Function
 
 Emsh Function represents functions that are present in most used languages.
+
+Emsh:
 
 ```
 function funcName for param1, param2, ..., paramN does:
@@ -77,6 +126,21 @@ f funcName(param1, param2, ..., paramN):
     // function body
 ```
 
+ECO:
+
+```
+{
+    type: "function",
+    name: string,
+    params: Variable[],
+    body: Code
+}
+```
+
+### Code
+
+Code array of objects that can be put inside of function
+
 ### Loops
 
 Emsh Core supports all of the standard loops while adding syntactic sugar for writing some of the loops in more conviniant way.
@@ -88,6 +152,8 @@ For Loop has 5 variants
 ##### Simplified For Loop
 
 Simplified for loop is syntactic sugar for doing something x times. Iteration variable will start at 0 and end at x-1.
+
+Emsh:
 
 ```
 do x times:
@@ -109,9 +175,23 @@ x times (iterVar):
     // For loop body
 ```
 
+ECO:
+
+```
+{
+    type: "forLoop",
+    variableName: string,
+    variableType: string,
+    condition: Expression,
+    step: Expression
+}
+```
+
 Versions without `iterVar` will translate into for loop with `i` as variable that will be used for each iteration. If `iterVar` is provided, thats the name that will be used for variable that will be used for each iteration.
 
 ##### Normal For Loop
+
+Emsh:
 
 ```
 for iterVar, condition, step:
@@ -123,9 +203,23 @@ for (iterVar, condition, step):
     // For loop body
 ```
 
+ECO:
+
+```
+{
+    type: "forLoop",
+    variableName: string,
+    variableType: string,
+    condition: Expression,
+    step: Expression
+}
+```
+
 ##### For-In Loop
 
 For-In loop iterates over iterable while giving key/index as first argument and value as second.
+
+Emsh:
 
 ```
 for key in iterable:
@@ -147,9 +241,23 @@ for (key, value in interable):
     // For loop body
 ```
 
+ECO:
+
+```
+{
+    type: "forLoop",
+    variableName: string,
+    variableType: string,
+    condition: Expression,
+    step: Expression
+}
+```
+
 ##### For-Of Loop
 
 For-In loop iterates over iterable while giving value as first argument and key/index as second.
+
+Emsh:
 
 ```
 for value in iterable:
@@ -171,7 +279,21 @@ for (value, index in iterable):
     // For loop body
 ```
 
+ECO:
+
+```
+{
+    type: "forLoop",
+    variableName: string,
+    variableType: string,
+    condition: Expression,
+    step: Expression
+}
+```
+
 #### While Loop
+
+Emsh:
 
 ```
 while condition:
@@ -183,7 +305,18 @@ while (condition):
     // While loop body
 ```
 
+ECO:
+
+```
+{
+    type: "whileLoop",
+    condition: Expression
+}
+```
+
 #### Do-While Loop
+
+Emsh:
 
 ```
 do:
@@ -197,21 +330,140 @@ do:
 while (condition)
 ```
 
-### Variables
+ECO:
 
-Emsh Variables in first version will be treated as staticly typed. Maybe later versions will add optional support for dynamic typing, but using it will make it impossible to translate it into staticly typed languages.
+```
+{
+    type: "doWhileLoop",
+    condition: Expression
+}
+```
+
+### Expression
+
+### Variable
+
+Emsh Variable in first version will be treated as staticly typed. Maybe later versions will add optional support for dynamic typing, but using it will make it impossible to translate it into staticly typed languages.
+
+### Primitive types
 
 #### Integer
 
+Emsh:
+
+```
+x = 1
+```
+
+ECO:
+
+```
+{
+    type: "integer",
+    name: string,
+    initialValue: integer
+}
+```
+
 #### Double
+
+Emsh:
+
+```
+x = 1.05
+```
+
+ECO:
+
+```
+{
+    type: "double",
+    name: string,
+    initialValue: double
+}
+```
 
 #### Char
 
+Emsh:
+
+```
+x = 'a'
+```
+
+ECO:
+
+```
+{
+    type: "char",
+    name: string,
+    initialValue: char
+}
+```
+
+### Complex types
+
 #### String
+
+Emsh:
+
+```
+x = "Hello world!"
+```
+
+ECO:
+
+```
+{
+    type: "string",
+    name: string,
+    initialValue: string
+}
+```
 
 #### Array
 
+Array can only contain elements of same type
+
+Emsh:
+
+```
+x = [1, 2, 3]
+```
+
+ECO:
+
+```
+{
+    type: "array",
+    contains: primitiveType | complexType,
+    initialValue: array
+}
+```
+
 #### Object
+
+Object contains key-value pairs, where key is string and value can be of any type
+
+Emsh:
+
+```
+x = {
+    key1: "hello",
+    key2: 1,
+    key3: [1, 2, 3]
+}
+```
+
+ECO:
+
+```
+{
+    type: "object",
+    body: any[],
+    initialValue: object
+}
+```
 
 ## Emsh Base
 
