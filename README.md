@@ -529,6 +529,14 @@ MVCController:
         // Send data to server
 ```
 
+## Emsh Server
+
+
+
+## Emsh SQL/NoSQL
+
+At point of creating first version of Emsh im only familliar well enough with SQL and noSQL, so i won't be attempting to create GrphQL here. This module tries to standardize SQL features.
+
 ## Emsh Transpiler
 
 Emsh Transpiler is responsible for changing Emsh Language code into ECO. It's design is modular, allowing easy replacement of EmshCore parts, but also expanding it so that it could develop with other languages and frameworks as the time goes.
