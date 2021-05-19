@@ -15,11 +15,11 @@ Emsh language should be thought of as programmers way of writing ECO's, as it's 
 
 First version of Emsh Language will focus on implementing all of the features with indentation based syntax, but support for curly braces is intended.
 
-### Emsh Core
+## Emsh Core
 
 Emsh Core is set of functionalities that are supported by base version of Emsh Transpiler - it allows writing valid base code that will compile properly into vanilla versions of languages. While it's possible to create programming patterns with Emsh Core, it's limited as every language might do it very differently. Thats where other Emsh Transpilers will come to help. For now, let's focus on what Emsh Core can do.
 
-#### Module
+### Module
 
 Emsh Module is a box that can export any other supported feature - in JavaScript and Python it's equivalent is module, in Java it's package, in C# namespace. While these things are not the same, their purpose is very simillar and as such Emsh Core treats them as the same.
 
@@ -28,7 +28,7 @@ module moduleName:
     // module contents
 ```
 
-##### Importing
+#### Importing
 
 ```
 import x from y
@@ -38,13 +38,13 @@ import x from y
 from y import x
 ```
 
-##### Exporting
+#### Exporting
 
 ```
 export x
 ```
 
-#### Class
+### Class
 
 Emsh Class is OOP concept, if language supports it Emsh Compiler will try to implement it.
 
@@ -53,7 +53,7 @@ class className:
     // class contents
 ```
 
-#### Function
+### Function
 
 Emsh Function represents functions that are present in most used languages.
 
@@ -77,15 +77,15 @@ f funcName(param1, param2, ..., paramN):
     // function body
 ```
 
-#### Loops
+### Loops
 
 Emsh Core supports all of the standard loops while adding syntactic sugar for writing some of the loops in more conviniant way.
 
-##### For Loop
+#### For Loop
 
 For Loop has 5 variants
 
-###### Simplified For Loop
+##### Simplified For Loop
 
 Simplified for loop is syntactic sugar for doing something x times. Iteration variable will start at 0 and end at x-1.
 
@@ -111,7 +111,7 @@ x times (iterVar):
 
 Versions without `iterVar` will translate into for loop with `i` as variable that will be used for each iteration. If `iterVar` is provided, thats the name that will be used for variable that will be used for each iteration.
 
-###### Normal For Loop
+##### Normal For Loop
 
 ```
 for iterVar, condition, step:
@@ -123,7 +123,7 @@ for (iterVar, condition, step):
     // For loop body
 ```
 
-###### For-In Loop
+##### For-In Loop
 
 For-In loop iterates over iterable while giving key/index as first argument and value as second.
 
@@ -147,7 +147,7 @@ for (key, value in interable):
     // For loop body
 ```
 
-###### For-Of Loop
+##### For-Of Loop
 
 For-In loop iterates over iterable while giving value as first argument and key/index as second.
 
@@ -171,7 +171,7 @@ for (value, index in iterable):
     // For loop body
 ```
 
-##### While Loop
+#### While Loop
 
 ```
 while condition:
@@ -183,7 +183,7 @@ while (condition):
     // While loop body
 ```
 
-##### Do-While Loop
+#### Do-While Loop
 
 ```
 do:
@@ -197,27 +197,39 @@ do:
 while (condition)
 ```
 
-#### Variables
+### Variables
 
 Emsh Variables in first version will be treated as staticly typed. Maybe later versions will add optional support for dynamic typing, but using it will make it impossible to translate it into staticly typed languages.
 
-##### Integer
+#### Integer
 
-##### Double
+#### Double
 
-##### Char
+#### Char
 
-##### String
+#### String
 
-##### Array
+#### Array
 
-##### Object
+#### Object
 
-### Emsh MVCPattern
+## Emsh Base
+
+Emsh base tries to support basic programming patterns
+
+### Singleton
+
+### Factory
+
+### Builder
+
+### Adapter
+
+## Emsh MVCPattern
 
 MVCPattern is transpiler that allows one to write code that will be compiled into popular frameworks like React, Vue or Angular or other implementations of MVC, like C# WPF.
 
-#### MVCPattern
+### MVCPattern
 
 MVCPattern is object that represents whole MVC component that contains Mode, View and Controller.
 
@@ -233,7 +245,7 @@ MVCPattern:
         // will be determined in future
 ```
 
-#### MVCModel
+### MVCModel
 
 ```
 MVCModel:
@@ -250,14 +262,14 @@ MVCModel:
         // y or z changes it's value
 ```
 
-#### MVCView
+### MVCView
 
 ```
 MVCView:
     // Will be determined soon
 ```
 
-#### MVCController
+### MVCController
 
 ```
 MVCController:
@@ -278,3 +290,4 @@ ECO is not supposed to compress code - only be a backbone from which code will b
 ## Emsh Generator
 
 Emsh Generator is the part that changes ECO into valid code in chosen language/framework.
+s
