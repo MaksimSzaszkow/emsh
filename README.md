@@ -51,6 +51,11 @@ function funcName for param1, param2, ..., paramN does:
 ```
 
 ```
+function funcName(param1, param2, ..., paramN):
+    // function body
+```
+
+```
 func funcName(param1, param2, ..., paramN):
     // function body
 ```
@@ -197,6 +202,56 @@ Emsh Variables in first version will be treated as staticly typed. Meybe later v
 ##### Object
 
 ### Emsh MVCPattern
+
+MVCPattern is transpiler that allows one to write code that will be compiled into popular frameworks like React, Vue or Angular or other implementations of MVP, like C# WPF.
+
+#### MVCPattern
+
+MVCPattern is object that represents whole MVC component that contains Mode, View and Controller.
+
+```
+MVCPattern:
+    MVCModel:
+        // Variable declarations
+        // State change handlers
+    MVCController:
+        // Model manipulation functions
+    MVCView:
+        // HTML Template engine or someting custom based on HTML,
+        // will be determined in future
+```
+
+#### MVCModel
+
+```
+MVCModel:
+    x = 1
+    y = "string"
+    z = [1, 2, 3]
+
+    on x change:
+        // Code that should be executed after
+        // x changes it's value
+
+    on y, z change:
+        // Code that should be executed after
+        // y or z changes it's value
+```
+
+#### MVCView
+
+```
+MVCView:
+    // Will be determined soon
+```
+
+#### MVCController
+
+```
+MVCController:
+    function sendData(x, y, z):
+        // Send data to server
+```
 
 ## Emsh Transpiler
 
