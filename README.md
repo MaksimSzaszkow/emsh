@@ -187,7 +187,7 @@ while (condition)
 
 #### Variables
 
-Emsh Variables in first version will be treated as staticly typed. Meybe later versions will add optional support for dynamic typing, but using it will make it impossible to translate it into staticly typed languages.
+Emsh Variables in first version will be treated as staticly typed. Maybe later versions will add optional support for dynamic typing, but using it will make it impossible to translate it into staticly typed languages.
 
 ##### Integer
 
