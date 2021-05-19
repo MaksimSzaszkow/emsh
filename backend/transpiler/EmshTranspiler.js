@@ -2,13 +2,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-const CoreChecks = require("./EmshCore/Checks");
+const CoreChecks = require("./Checks");
 
-const CoreTypes = require("./EmshCore/Types");
+const CoreTypes = require("./Types");
 
-class Emsh {
+class EmshTranspiler {
   EmshCode;
-  EmshChecker;
+  Checker;
   EmshCodeObject = { main: new CoreTypes.EmshModule("main") };
   currentDepth = 0;
   context = {
@@ -18,8 +18,44 @@ class Emsh {
 
   constructor(EmshCode = "", EmshChecker = new CoreChecks()) {
     this.EmshCode = EmshCode;
-    this.EmshChecker = EmshChecker;
+    this.Checker = EmshChecker;
     this.createEmshCodeObject(this.EmshCode.split("\n"));
+  }
+
+  module(line) {
+    const [, name] = line.split("module ");
+    this.EmshCodeObject[name] = new CoreTypes.EmshModule(name);
+    this.context = { type: "module", path: [name] };
+  }
+
+  class(line) {
+    const [, name] = line.split("class ");
+    if (this.currentDepth > 0) {
+      this.EmshCodeObject[this.context.path[0]].classes[
+        name
+      ] = new CoreTypes.EmshClass(name);
+      this.context = {
+        type: "class",
+        path: [...this.context.path, "classes", name],
+      };
+    } else {
+      this.EmshCodeObject.main.classes[name] = new CoreTypes.EmshClass(name);
+      this.context = { type: "class", path: ["main", "classes", name] };
+    }
+  }
+
+  function(line) {
+    const [n, p] = line.split("for");
+    const name = n.split("func ")[1].trim();
+    const params = p.split(",").map((param) => param.trim());
+    const c = this.getContextObject();
+
+    c.functions[name] = new CoreTypes.EmshFunction(name, params);
+
+    this.context = {
+      type: "function",
+      path: [...this.context.path, "functions", name],
+    };
   }
 
   createEmshCodeObject(code) {
@@ -29,42 +65,14 @@ class Emsh {
       if (newDepth > this.currentDepth) this.currentDepth = newDepth;
       else if (newDepth < this.currentDepth) this.currentDepth = newDepth;
 
-      if (this.EmshChecker.isModule(trimmedLine)) {
-        const [, name] = trimmedLine.split("module ");
-        this.EmshCodeObject[name] = new CoreTypes.EmshModule(name);
-        this.context = { type: "module", path: [name] };
-      } else if (this.EmshChecker.isClass(trimmedLine)) {
-        const [, name] = trimmedLine.split("class ");
-        if (this.currentDepth > 0) {
-          this.EmshCodeObject[this.context.path[0]].classes[
-            name
-          ] = new CoreTypes.EmshClass(name);
-          this.context = {
-            type: "class",
-            path: [...this.context.path, "classes", name],
-          };
-        } else {
-          this.EmshCodeObject.main.classes[name] = new CoreTypes.EmshClass(
-            name
-          );
-          this.context = { type: "class", path: ["main", "classes", name] };
-        }
-      } else if (this.EmshChecker.isFunction(trimmedLine)) {
-        const [n, p] = trimmedLine.split("for");
-        const name = n.split("func ")[1].trim();
-        const params = p.split(",").map((param) => param.trim());
-        const c = this.getContextObject();
-
-        c.functions[name] = new CoreTypes.EmshFunction(name, params);
-
-        this.context = {
-          type: "function",
-          path: [...this.context.path, "functions", name],
-        };
-      } else if (this.EmshChecker.isNormalForLoop(trimmedLine)) {
+      if (this.Checker.isModule(trimmedLine)) this.module(trimmedLine);
+      else if (this.Checker.isClass(trimmedLine)) this.class(trimmedLine);
+      else if (this.Checker.isFunction(trimmedLine)) this.function(trimmedLine);
+      else if (this.Checker.isNormalForLoop(trimmedLine)) {
         //TODO IMPLEMENT
-      } else if (this.EmshChecker.isSimpleForLoop(trimmedLine)) {
+      } else if (this.Checker.isSimpleForLoop(trimmedLine)) {
         const c = this.getContextObject();
+        console.log(c);
 
         c.body = [
           ...c.body,
@@ -79,10 +87,10 @@ class Emsh {
           type: "forLoop",
           path: [...this.context.path, "body", c.body.length - 1],
         };
-      } else if (this.EmshChecker.isWhileLoop(trimmedLine)) {
-      } else if (this.EmshChecker.isConditional(trimmedLine)) {
-      } else if (this.EmshChecker.isReturn(trimmedLine)) {
-      } else if (this.EmshChecker.isDisplay(trimmedLine)) {
+      } else if (this.Checker.isWhileLoop(trimmedLine)) {
+      } else if (this.Checker.isConditional(trimmedLine)) {
+      } else if (this.Checker.isReturn(trimmedLine)) {
+      } else if (this.Checker.isDisplay(trimmedLine)) {
         const c = this.getContextObject();
 
         c.body = [
@@ -118,4 +126,4 @@ class Emsh {
   }
 }
 
-module.exports = Emsh;
+module.exports = EmshTranspiler;

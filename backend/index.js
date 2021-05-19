@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const express = require("express");
 const cors = require("cors");
-const Javascript = require("./compilers/javascript");
-const CSharp = require("./compilers//csharp");
+const Javascript = require("./generators/javascript");
+const CSharp = require("./generators/csharp");
 
 const app = express();
 

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-const Emsh = require("./emsh");
+const Emsh = require("../transpiler/EmshTranspiler");
 
 class CSharp extends Emsh {
   code = "";
