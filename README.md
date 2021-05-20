@@ -15,9 +15,31 @@ Emsh language should be thought of as programmers way of writing ECO's, as it's 
 
 First version of Emsh Language will focus on implementing all of the features with indentation based syntax, but support for curly braces is intended.
 
+### Design principles
+
+#### Standardize
+
+Many languages do the same thing in wildly different ways. While very often with those different ways come different possibilities, in most cases they are used for the same purpose. Emsh provides standardized ways of expressing those things across languages.
+
+#### Declutter
+
+Patterns and concepts are not native to languages, they only give tools to express those patterns. This means that not only patterns are not readable at first glance and require with more advanced concepts in-depth knowledge about language syntax, but also it's not enough to understand the pattern and know what to do with it - one also needs to know how to create it in chosen language. Emsh allows one to focus on tailoring pattern to needs of project by providing separate syntax for those patterns.
+
+#### Allow advanced programmers to work faster
+
+Emsh main purpose is to allow making solutions faster and easier - while it's not tool that will do everything perfect, having a solution after only fraction of time required in other languages allows one to focus on having working prototype.
+
+#### Allow begginer programmers to learn faster
+
+Emsh language tries to not only provide syntax that is understandable to advanced programmer, but also alternative syntax that makes same things read more like normal language, not secret code of secrets.
+
+#### Allow for translation of keywords
+
+This point extends idea of being begginer friendly by allowing one to swap keywords for custom ones. This has the potential of making it easier to learn programming for non-english speaking folk, and thus inviting more people to collaborate.
+
 ## Emsh Core
 
-Emsh Core is set of functionalities that are supported by base version of Emsh Transpiler - it allows writing valid base code that will compile properly into vanilla versions of languages. While it's possible to create programming patterns with Emsh Core, it's limited as every language might do it very differently. Thats where other Emsh Transpilers will come to help. For now, let's focus on what Emsh Core can do.
+Emsh Core focuses on providing support for the most fundamental features in most popular languages.
 
 ### File
 
@@ -40,11 +62,15 @@ ECO:
 Emsh:
 
 ```
-import x from y
+from z import x
 ```
 
 ```
-from y import x
+from z import x, y
+```
+
+```
+from z import x as a, y
 ```
 
 #### Exporting
@@ -63,7 +89,19 @@ Emsh:
 
 ```
 module moduleName:
-    // module contents
+    public:
+        // Variables
+        // Functions
+        // Classes
+    private:
+        // Variables
+        // Functions
+        // Classes
+    static:
+        // Variables
+        // Functions
+        // Classes
+
 ```
 
 ECO:
@@ -72,9 +110,21 @@ ECO:
 {
     type: "module",
     name: string,
-    variables: Variable[],
-    functions: Function[],
-    classes: Class[]
+    public: {
+        variables: Variable[],
+        functions: Function[],
+        classes: Class[]
+    }
+    private: {
+        variables: Variable[],
+        functions: Function[],
+        classes: Class[]
+    },
+    static: {
+        variables: Variable[],
+        functions: Function[],
+        classes: Class[]
+    }
 }
 ```
 
@@ -86,7 +136,15 @@ Emsh:
 
 ```
 class className:
-    // class contents
+    public:
+        // Variables
+        // Functions
+    private:
+        // Variables
+        // Functions
+    static:
+        // Variables
+        // Functions
 ```
 
 ECO:
@@ -95,8 +153,22 @@ ECO:
 {
     type: "class",
     name: string,
-    variables: Variable[],
-    functions: Function[],
+    public: {
+        variables: Variable[],
+        functions: Function[],
+    },
+    private: {
+        variables: Variable[],
+        functions: Function[],
+    },
+    protected: {
+        variables: Variable[],
+        functions: Function[],
+    },
+    static: {
+        variables: Variable[],
+        functions: Function[],
+    }
 }
 ```
 
@@ -132,6 +204,41 @@ ECO:
 {
     type: "function",
     name: string,
+    params: Variable[],
+    body: Code
+}
+```
+
+Anonymous functions are also supported.
+
+Emsh:
+
+```
+function for param1, param2, ..., paramN does:
+    // function body
+```
+
+```
+function (param1, param2, ..., paramN):
+    // function body
+```
+
+```
+func (param1, param2, ..., paramN):
+    // function body
+```
+
+```
+f (param1, param2, ..., paramN):
+    // function body
+```
+
+ECO:
+
+```
+{
+    type: "function",
+    name: "",
     params: Variable[],
     body: Code
 }
@@ -530,8 +637,6 @@ MVCController:
 ```
 
 ## Emsh Server
-
-
 
 ## Emsh SQL/NoSQL
 
