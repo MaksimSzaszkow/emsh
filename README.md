@@ -189,11 +189,6 @@ function funcName(param1, param2, ..., paramN):
 ```
 
 ```
-func funcName(param1, param2, ..., paramN):
-    // function body
-```
-
-```
 f funcName(param1, param2, ..., paramN):
     // function body
 ```
@@ -220,11 +215,6 @@ function for param1, param2, ..., paramN does:
 
 ```
 function (param1, param2, ..., paramN):
-    // function body
-```
-
-```
-func (param1, param2, ..., paramN):
     // function body
 ```
 
