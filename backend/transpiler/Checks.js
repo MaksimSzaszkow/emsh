@@ -70,17 +70,29 @@ class CoreChecks {
   }
 
   isForInLoop(string) {
-    const human = new RegExp(`for ${this.validName} in .* {0,1}:`);
-    const long = new RegExp(`for \( {0,1}${this.validName} in .* {0,1}\):`);
-    const short = new RegExp(`for \( {0,1}${this.validName} in .* {0,1}\):`);
+    const human = new RegExp(
+      `for ${this.validName}( {0,1}, {0,1}${this.validName}){0,1} in .* {0,1}:`
+    );
+    const long = new RegExp(
+      `for \( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} in .* {0,1}\):`
+    );
+    const short = new RegExp(
+      `for \( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} in .* {0,1}\):`
+    );
 
     return this.check(string, human, long, short);
   }
 
   isForOfLoop(string) {
-    const human = new RegExp(`for ${this.validName} of .* {0,1}:`);
-    const long = new RegExp(`for \( {0,1}${this.validName} of .* {0,1}\):`);
-    const short = new RegExp(`for \( {0,1}${this.validName} of .* {0,1}\):`);
+    const human = new RegExp(
+      `for ${this.validName}( {0,1}, {0,1}${this.validName}){0,1} of .* {0,1}:`
+    );
+    const long = new RegExp(
+      `for \( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} of .* {0,1}\):`
+    );
+    const short = new RegExp(
+      `for \( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} of .* {0,1}\):`
+    );
 
     return this.check(string, human, long, short);
   }
@@ -101,19 +113,27 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isAssigment(string) {
-    const long = / equals /;
-    const short = /={1}/;
-    return long.test(string) || short.test(string);
+  isIfStatement(string) {
+    const human = new RegExp(`if [^()]*:`);
+    const long = new RegExp(`if *\( *.* *\):`);
+    const short = new RegExp(`if *\( *.* *\):`);
+
+    return this.check(string, human, long, short);
   }
 
-  isConditional(string) {
-    const long = /if *(.*)/;
-    const short = /if ./;
+  isElseStatement(string) {
+    const human = new RegExp(`else *:`);
+    const long = human;
+    const short = human;
+    return this.check(string, human, long, short);
+  }
 
-    if (long.test(string)) return { passed: true, type: "long" };
-    else if (short.test(string)) return { passed: true, type: "short" };
-    return { passed: false };
+  isElseIfStatement(string) {
+    const human = new RegExp(`else if [^()]*:`);
+    const long = new RegExp(`else if *\( *.* *\):`);
+    const short = new RegExp(`elif *\( *.* *\):`);
+
+    return this.check(string, human, long, short);
   }
 
   isDisplay(string) {

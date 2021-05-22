@@ -234,10 +234,6 @@ ECO:
 }
 ```
 
-### Code
-
-Code array of objects that can be put inside of function
-
 ### Loops
 
 Emsh Core supports all of the standard loops while adding syntactic sugar for writing some of the loops in more conviniant way.
@@ -280,7 +276,8 @@ ECO:
     variableName: string,
     variableType: string,
     condition: Expression,
-    step: Expression
+    step: Expression,
+    body: Code
 }
 ```
 
@@ -308,7 +305,8 @@ ECO:
     variableName: string,
     variableType: string,
     condition: Expression,
-    step: Expression
+    step: Expression,
+    body: Code
 }
 ```
 
@@ -346,7 +344,8 @@ ECO:
     variableName: string,
     variableType: string,
     condition: Expression,
-    step: Expression
+    step: Expression,
+    body: Code
 }
 ```
 
@@ -384,7 +383,8 @@ ECO:
     variableName: string,
     variableType: string,
     condition: Expression,
-    step: Expression
+    step: Expression,
+    body: Code
 }
 ```
 
@@ -407,7 +407,8 @@ ECO:
 ```
 {
     type: "whileLoop",
-    condition: Expression
+    condition: Expression,
+    body: Code
 }
 ```
 
@@ -432,7 +433,83 @@ ECO:
 ```
 {
     type: "doWhileLoop",
-    condition: Expression
+    condition: Expression,
+    body: Code
+}
+```
+
+### Conditional statements
+
+#### If
+
+Emsh:
+
+```
+if condition:
+    // if body
+```
+
+```
+if (condition):
+    // if body
+```
+
+ECO:
+
+```
+{
+    type: "if",
+    condition: Expression,
+    body: Code
+}
+```
+
+#### Else
+
+```
+else:
+    // else body
+```
+
+```
+else:
+    // else body
+```
+
+ECO:
+
+```
+{
+    type: "else",
+    condition: Expression,
+    body: Code
+}
+```
+
+#### Else if
+
+```
+else if condition:
+    // else if body
+```
+
+```
+else if (condition):
+    // else if body
+```
+
+```
+elif (condition):
+    // else if body
+```
+
+ECO:
+
+```
+{
+    type: "elseIf",
+    condition: Expression,
+    body: Code
 }
 ```
 
