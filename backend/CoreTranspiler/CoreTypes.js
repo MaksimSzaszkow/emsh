@@ -32,11 +32,8 @@ module.exports.Module = class {
     classes: [],
   };
 
-  constructor(name, publicPart, privatePart, staticPart) {
+  constructor(name) {
     this.name = name;
-    this.public = publicPart;
-    this.private = privatePart;
-    this.static = staticPart;
   }
 };
 
@@ -64,18 +61,19 @@ module.exports.Class = class {
     classes: [],
   };
 
-  constructor(name, publicPart, privatePart, protectedPart, staticPart) {
+  constructor(name) {
     this.name = name;
-    this.public = publicPart;
-    this.private = privatePart;
-    this.protected = protectedPart;
-    this.static = staticPart;
   }
 };
 
 module.exports.Function = class {
   type = "function";
   name;
-  params = [];
+  params;
   body = [];
+
+  constructor(name, params) {
+    this.name = name;
+    this.params = params;
+  }
 };

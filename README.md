@@ -79,6 +79,16 @@ from z import x, y
 from z import x as a, y
 ```
 
+ECO:
+
+```
+{
+    type: "import",
+    module: Module,
+    something: {}[]
+}
+```
+
 #### Exporting
 
 ```
