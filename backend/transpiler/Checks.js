@@ -2,14 +2,14 @@
 class CoreChecks {
   validName = "[a-zA-Z_][a-zA-Z_0-9]*";
 
-  check(string, human, long, short) {
+  static check(string, human, long, short) {
     if (human.test(string)) return "human";
     else if (long.test(string)) return "long";
     else if (short.test(string)) return "short";
     return "";
   }
 
-  isImport(string) {
+  static isImport(string) {
     const human = new RegExp(`from .+ import ${this.validName}`);
     const long = human;
     const short = human;
@@ -17,7 +17,15 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isModule(string) {
+  static isExport(string) {
+    const human = new RegExp(`export ${this.validName}`);
+    const long = human;
+    const short = human;
+
+    return this.check(string, human, long, short);
+  }
+
+  static isModule(string) {
     const human = new RegExp(`module ${this.validName}:`);
     const long = human;
     const short = human;
@@ -25,7 +33,7 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isClass(string) {
+  static isClass(string) {
     const human = new RegExp(`class ${this.validName}:`);
     const long = human;
     const short = human;
@@ -33,7 +41,7 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isFunction(string) {
+  static isFunction(string) {
     const human = new RegExp(
       `function (${this.validName}){0,1} for ((${this.validName} {0,1},{1} {0,1})*)${this.validName} does:`
     );
@@ -47,7 +55,7 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isSimpleForLoop(string) {
+  static isSimpleForLoop(string) {
     const human = new RegExp(`do ${this.validName} times:`);
     const long = new RegExp(`${this.validName} times:`);
     const short = new RegExp(`${this.validName} times:`);
@@ -55,7 +63,7 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isNormalForLoop(string) {
+  static isNormalForLoop(string) {
     const human = new RegExp(
       `for ${this.validName} {0,1}, {0,1}.* {0,1}, {0,1}.*:`
     );
@@ -69,7 +77,7 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isForInLoop(string) {
+  static isForInLoop(string) {
     const human = new RegExp(
       `for ${this.validName}( {0,1}, {0,1}${this.validName}){0,1} in .* {0,1}:`
     );
@@ -83,7 +91,7 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isForOfLoop(string) {
+  static isForOfLoop(string) {
     const human = new RegExp(
       `for ${this.validName}( {0,1}, {0,1}${this.validName}){0,1} of .* {0,1}:`
     );
@@ -97,7 +105,7 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isWhileLoop(string) {
+  static isWhileLoop(string) {
     const human = new RegExp(`while .* {0,1}:`);
     const long = new RegExp(`while ( {0,1}.* {0,1}) {0,1}:`);
     const short = new RegExp(`while ( {0,1}.* {0,1}) {0,1}:`);
@@ -105,7 +113,7 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isDoWhileLoop(string) {
+  static isDoWhileLoop(string) {
     const human = new RegExp(`do:`);
     const long = human;
     const short = human;
@@ -113,7 +121,7 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isIfStatement(string) {
+  static isIfStatement(string) {
     const human = new RegExp(`if [^()]*:`);
     const long = new RegExp(`if *\( *.* *\):`);
     const short = new RegExp(`if *\( *.* *\):`);
@@ -121,14 +129,14 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isElseStatement(string) {
+  static isElseStatement(string) {
     const human = new RegExp(`else *:`);
     const long = human;
     const short = human;
     return this.check(string, human, long, short);
   }
 
-  isElseIfStatement(string) {
+  static isElseIfStatement(string) {
     const human = new RegExp(`else if [^()]*:`);
     const long = new RegExp(`else if *\( *.* *\):`);
     const short = new RegExp(`elif *\( *.* *\):`);
@@ -136,14 +144,20 @@ class CoreChecks {
     return this.check(string, human, long, short);
   }
 
-  isDisplay(string) {
-    const medium = /^display(.*)$/;
-    const short = /^display .*/;
-    return medium.test(string) || short.test(string);
+  static isDisplay(string) {
+    const human = new RegExp(`display .*`);
+    const long = new RegExp(`display *( *.* *)`);
+    const short = new RegExp(`display *( *.* *)`);
+
+    return this.check(string, human, long, short);
   }
 
-  isReturn(string) {
-    return /return .*/.test(string);
+  static isReturn(string) {
+    const human = new RegExp(`return .*`);
+    const long = new RegExp(`return .*`);
+    const short = new RegExp(`return .*`);
+
+    return this.check(string, human, long, short);
   }
 }
 

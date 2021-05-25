@@ -7,6 +7,12 @@ Emsh is a set of tools that allows focusing on creating solution that works in a
 - Emsh Code Object (ECO)
 - Emsh Generator
 
+## Emsh Code Object
+
+ECO is the most fundamental part of Emsh system - it encodes all information required to generate code in any language that supports those features. It's done by distinguishing all parts of the code, assigning them label and encoding all information required to recreate that part of code in any language.
+
+ECO is not supposed to compress code - only to be a backbone from which code will be generated in chosen language.
+
 ## Emsh Language
 
 Emsh language is **higher** level abstraction programming language, that is changed into ECO by Emsh Transpiler. It's main purpose is to provide easy and natural syntax, that allows creating solution that works as planned in any supported language or framework in no time - without the need to know the language or framework itself.
@@ -130,7 +136,7 @@ ECO:
 
 ### Class
 
-Emsh Class is OOP concept, if language supports it Emsh Compiler will try to implement it.
+Emsh Class is OOP concept, if language supports it Emsh Generator will try to implement it.
 
 Emsh:
 
@@ -513,11 +519,114 @@ ECO:
 }
 ```
 
-### Expression
+### Return statement
+
+Emsh:
+
+```
+return expression
+```
+
+ECO:
+
+```
+{
+    type: "return",
+    expression: Expression
+}
+```
+
+### Display statement
+
+Display statement declares that we want to display in any way possible chosen expression - it's up to generator to choose how it will be implemented.
+Emsh:
+
+```
+display expression
+```
+
+```
+display(expression)
+```
+
+ECO:
+
+```
+{
+    type: "display",
+    expression: Expression
+}
+```
+
+### Assigment
+
+Assigns to variable value of Expression
+
+Emsh:
+
+```
+variable equals expression
+```
+
+```
+variable = expression
+```
+
+ECO:
+
+```
+{
+    type: "assigment",
+    variable: Variable,
+    expression: Expression
+}
+```
 
 ### Variable
 
 Emsh Variable in first version will be treated as staticly typed. Maybe later versions will add optional support for dynamic typing, but using it will make it impossible to translate it into staticly typed languages.
+
+### Incrementation
+
+Emsh:
+
+```
+increment x
+```
+
+```
+x++
+```
+
+ECO:
+
+```
+{
+    type: "increment",
+    variable: Variable,
+}
+```
+
+### Decrementation
+
+Emsh:
+
+```
+decrement x
+```
+
+```
+x--
+```
+
+ECO:
+
+```
+{
+    type: "decrement",
+    variable: Variable,
+}
+```
 
 ### Primitive types
 
@@ -597,8 +706,6 @@ ECO:
 
 #### Array
 
-Array can only contain elements of same type
-
 Emsh:
 
 ```
@@ -617,7 +724,7 @@ ECO:
 
 #### Object
 
-Object contains key-value pairs, where key is string and value can be of any type
+Object contains key-value pairs, where key is string and value can be of any type. It's equivalent in some languages is struct.
 
 Emsh:
 
@@ -639,9 +746,15 @@ ECO:
 }
 ```
 
+### Asynchronous programming
+
+## Emsh Networking
+
+Emsh Networking implements support for HTTP client
+
 ## Emsh Base
 
-Emsh base tries to support basic programming patterns
+Emsh base implements support for basic programming patterns
 
 ### Singleton
 
@@ -653,7 +766,7 @@ Emsh base tries to support basic programming patterns
 
 ## Emsh MVCPattern
 
-MVCPattern is transpiler that allows one to write code that will be compiled into popular frameworks like React, Vue or Angular or other implementations of MVC, like C# WPF.
+MVCPattern is transpiler that allows one to write code from which it will be possible to generate code in frameworks such as React, Vue, Angular or C# WPF.
 
 ### MVCPattern
 
@@ -705,19 +818,15 @@ MVCController:
 
 ## Emsh Server
 
-## Emsh SQL/NoSQL
+Emsh server implements functionality required for
 
-At point of creating first version of Emsh im only familliar well enough with SQL and noSQL, so i won't be attempting to create GrphQL here. This module tries to standardize SQL features.
+## Emsh DataSchema
+
+## Emsh Database
 
 ## Emsh Transpiler
 
 Emsh Transpiler is responsible for changing Emsh Language code into ECO. It's design is modular, allowing easy replacement of EmshCore parts, but also expanding it so that it could develop with other languages and frameworks as the time goes.
-
-## Emsh Code Object
-
-ECO contains all information needed for generator to change it into valid code of given language/framework. It's done by encoding every notable part of code into structs with properties that are sufficient to create it in chosen language.
-
-ECO is not supposed to compress code - only be a backbone from which code will be written in chosen language. One ECO is enought to get functionaly the same code in every supported language/framework.
 
 ## Emsh Generator
 

@@ -1,78 +1,81 @@
-module.exports.EshmFunction = class {
-  type = "function";
+module.exports.File = class {
+  type = "file";
   name;
-  params;
-  body = [];
+  imports;
+  contains;
+  exports;
 
-  constructor(name, params = []) {
+  constructor(name, imports, contains, exports) {
     this.name = name;
-    this.params = params;
+    this.imports = imports;
+    this.contains = contains;
+    this.exports = exports;
   }
 };
 
-module.exports.EmshForLoop = class {
-  type = "forLoop";
-  varName;
-  condition;
-  step;
-  body = [];
-
-  constructor(varName, condition, step) {
-    this.varName = varName;
-    this.condition = condition;
-    this.step = step;
-  }
-};
-
-module.exports.EmshWhileLoop = class {
-  type = "whileLoop";
-  condition;
-  body = [];
-};
-
-module.exports.EmshClass = class {
-  type = "class";
-  name;
-  variables = {};
-  functions = {};
-
-  constructor(name) {
-    this.name = name;
-  }
-};
-
-module.exports.EmshStruct = class {
-  type = "struct";
-  name;
-  fields;
-};
-
-module.exports.EmshModule = class {
+module.exports.Module = class {
   type = "module";
   name;
-  classes = {};
-  functions = {};
-  variables = {};
+  public = {
+    variables: [],
+    functions: [],
+    classes: [],
+  };
+  private = {
+    variables: [],
+    functions: [],
+    classes: [],
+  };
+  static = {
+    variables: [],
+    functions: [],
+    classes: [],
+  };
 
-  constructor(name) {
+  constructor(name, publicPart, privatePart, staticPart) {
     this.name = name;
+    this.public = publicPart;
+    this.private = privatePart;
+    this.static = staticPart;
   }
 };
 
-module.exports.EmshLine = class {
-  code;
-};
-
-module.exports.EmshDisplay = class {
-  type = "display";
-  message;
-
-  constructor(message) {
-    this.message = message;
-  }
-};
-
-module.exports.EmshVariable = class {
-  type = "variable";
+module.exports.Class = class {
+  type = "class";
   name;
+  public = {
+    variables: [],
+    functions: [],
+    classes: [],
+  };
+  private = {
+    variables: [],
+    functions: [],
+    classes: [],
+  };
+  protected = {
+    variables: [],
+    functions: [],
+    classes: [],
+  };
+  static = {
+    variables: [],
+    functions: [],
+    classes: [],
+  };
+
+  constructor(name, publicPart, privatePart, protectedPart, staticPart) {
+    this.name = name;
+    this.public = publicPart;
+    this.private = privatePart;
+    this.protected = protectedPart;
+    this.static = staticPart;
+  }
+};
+
+module.exports.Function = class {
+  type = "function";
+  name;
+  params = [];
+  body = [];
 };
