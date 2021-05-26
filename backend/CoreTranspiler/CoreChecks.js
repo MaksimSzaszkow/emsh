@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 class CoreChecks {
-  validName = "[a-zA-Z_][a-zA-Z_0-9]*";
+  static validName = "[a-zA-Z_][a-zA-Z_0-9]*";
 
   static check(string, human, long, short) {
     if (human.test(string)) return "human";
@@ -46,12 +46,11 @@ class CoreChecks {
       `function (${this.validName}){0,1} for ((${this.validName} {0,1},{1} {0,1})*)${this.validName} does:`
     );
     const long = new RegExp(
-      `function (${this.validName}){0,1} {0,1}\( {0,1}((${this.validName} {0,1},{1} {0,1})*)${this.validName} {0,1}\):`
+      `function ([a-zA-Z_][a-zA-Z_0-9]*){0,1} *\\( *(([a-zA-Z_][a-zA-Z_0-9]*, *)*)[a-zA-Z_][a-zA-Z_0-9]* *\\):`
     );
     const short = new RegExp(
-      `f (${this.validName}){0,1} {0,1}\( {0,1}((${this.validName} {0,1},{1} {0,1})*)${this.validName} {0,1}\):`
+      `f (${this.validName}){0,1} *\\( *((${this.validName}, *)*)${this.validName} *\\):`
     );
-
     return this.check(string, human, long, short);
   }
 
@@ -68,10 +67,10 @@ class CoreChecks {
       `for ${this.validName} {0,1}, {0,1}.* {0,1}, {0,1}.*:`
     );
     const long = new RegExp(
-      `for \( {0,1}${this.validName} {0,1}[,;] {0,1}.* {0,1}[,;] {0,1}.* {0,1}\):`
+      `for \\( {0,1}${this.validName} {0,1}[,;] {0,1}.* {0,1}[,;] {0,1}.* {0,1}\\):`
     );
     const short = new RegExp(
-      `for \( {0,1}${this.validName} {0,1}[,;] {0,1}.* {0,1}[,;] {0,1}.* {0,1}\):`
+      `for \\( {0,1}${this.validName} {0,1}[,;] {0,1}.* {0,1}[,;] {0,1}.* {0,1}\\):`
     );
 
     return this.check(string, human, long, short);
@@ -82,10 +81,10 @@ class CoreChecks {
       `for ${this.validName}( {0,1}, {0,1}${this.validName}){0,1} in .* {0,1}:`
     );
     const long = new RegExp(
-      `for \( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} in .* {0,1}\):`
+      `for \\( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} in .* {0,1}\\):`
     );
     const short = new RegExp(
-      `for \( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} in .* {0,1}\):`
+      `for \\( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} in .* {0,1}\\):`
     );
 
     return this.check(string, human, long, short);
@@ -96,10 +95,10 @@ class CoreChecks {
       `for ${this.validName}( {0,1}, {0,1}${this.validName}){0,1} of .* {0,1}:`
     );
     const long = new RegExp(
-      `for \( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} of .* {0,1}\):`
+      `for \\( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} of .* {0,1}\\):`
     );
     const short = new RegExp(
-      `for \( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} of .* {0,1}\):`
+      `for \\( {0,1}${this.validName}( {0,1}, {0,1}${this.validName}){0,1} of .* {0,1}\\):`
     );
 
     return this.check(string, human, long, short);
@@ -123,8 +122,8 @@ class CoreChecks {
 
   static isIfStatement(string) {
     const human = new RegExp(`if [^()]*:`);
-    const long = new RegExp(`if *\( *.* *\):`);
-    const short = new RegExp(`if *\( *.* *\):`);
+    const long = new RegExp(`if *\\( *.* *\\):`);
+    const short = new RegExp(`if *\\( *.* *\\):`);
 
     return this.check(string, human, long, short);
   }
@@ -138,8 +137,8 @@ class CoreChecks {
 
   static isElseIfStatement(string) {
     const human = new RegExp(`else if [^()]*:`);
-    const long = new RegExp(`else if *\( *.* *\):`);
-    const short = new RegExp(`elif *\( *.* *\):`);
+    const long = new RegExp(`else if *\\( *.* *\\):`);
+    const short = new RegExp(`elif *\\( *.* *\\):`);
 
     return this.check(string, human, long, short);
   }

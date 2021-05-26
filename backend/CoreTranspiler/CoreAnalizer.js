@@ -17,9 +17,9 @@ module.exports = class CoreAnalizer {
     { function: "isForOfLoop", type: "forOfLoop" },
     { function: "isWhileLoop", type: "whileLoop" },
     { function: "isDoWhileLoop", type: "doWhileLoop" },
-    { function: "isIfStatements", type: "ifStatement" },
-    { function: "isElseStatements", type: "elseStatement" },
-    { function: "isElseIfStatements", type: "elseIfStatement" },
+    { function: "isIfStatement", type: "ifStatement" },
+    { function: "isElseStatement", type: "elseStatement" },
+    { function: "isElseIfStatement", type: "elseIfStatement" },
     { function: "isDisplay", type: "display" },
     { function: "isReturn", type: "return" },
   ];
@@ -61,15 +61,24 @@ module.exports = class CoreAnalizer {
   static module(line, version) {
     switch (version) {
       case "human": {
-        const name = line.replace(/module /, "").replace(":", "");
+        const name = line
+          .replace(/module /, "")
+          .replace(":", "")
+          .trim();
         return new CoreTypes.Module(name);
       }
       case "long": {
-        const name = line.replace(/module /, "").replace(":", "");
+        const name = line
+          .replace(/module /, "")
+          .replace(":", "")
+          .trim();
         return new CoreTypes.Module(name);
       }
       case "short": {
-        const name = line.replace(/module /, "").replace(":", "");
+        const name = line
+          .replace(/module /, "")
+          .replace(":", "")
+          .trim();
         return new CoreTypes.Module(name);
       }
     }
@@ -78,15 +87,24 @@ module.exports = class CoreAnalizer {
   static class(line, version) {
     switch (version) {
       case "human": {
-        const name = line.replace(/class /, "").replace(":", "");
+        const name = line
+          .replace(/class /, "")
+          .replace(":", "")
+          .trim();
         return new CoreTypes.Class(name);
       }
       case "long": {
-        const name = line.replace(/class /, "").replace(":", "");
+        const name = line
+          .replace(/class /, "")
+          .replace(":", "")
+          .trim();
         return new CoreTypes.Class(name);
       }
       case "short": {
-        const name = line.replace(/class /, "").replace(":", "");
+        const name = line
+          .replace(/class /, "")
+          .replace(":", "")
+          .trim();
         return new CoreTypes.Class(name);
       }
     }
@@ -99,7 +117,8 @@ module.exports = class CoreAnalizer {
         const params = line
           .replace(/function .* for /, "")
           .replace(/does:/, "")
-          .split(",");
+          .split(",")
+          .map((param) => param.trim());
         return new CoreTypes.Function(name, params);
       }
       case "long": {
@@ -107,7 +126,8 @@ module.exports = class CoreAnalizer {
         const params = line
           .replace(/function .* *\( */, "")
           .replace(/\):/, "")
-          .split(",");
+          .split(",")
+          .map((param) => param.trim());
         return new CoreTypes.Function(name, params);
       }
       case "short": {
@@ -115,7 +135,8 @@ module.exports = class CoreAnalizer {
         const params = line
           .replace(/f .* *\( */, "")
           .replace(/\):/, "")
-          .split(",");
+          .split(",")
+          .map((param) => param.trim());
         return new CoreTypes.Function(name, params);
       }
     }

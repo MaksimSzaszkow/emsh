@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const Javascript = require("./generators/javascript");
 const CSharp = require("./generators/csharp");
+const CoreTranspiler = require("./CoreTranspiler");
 
 const app = express();
 
@@ -14,13 +15,13 @@ app.get("/", (req, res) => {
 });
 
 app.post("/javascript", (req, res) => {
-  const js = new Javascript(req.body.code);
-  res.json(js.code);
+  const t = new CoreTranspiler(req.body.code);
+  t.Transpile();
+  res.json("lol");
 });
 
 app.post("/csharp", (req, res) => {
   const csharp = new CSharp(req.body.code);
-  console.log(csharp.code);
   res.json(csharp.code);
 });
 

@@ -5,7 +5,7 @@ import style from "./style.module.css";
 
 const Header: FunctionalComponent = () => {
   const [code, setCode] = useState(
-    `x = 5\ndo x times\n\tdisplay "fajnie"\nx = 7\nwhile x > 0 do\n\tdisplay "woooho"\n\tx--`
+    `module test:\nclass test2:\nfunction test3 for param1, param2 does:\n`
   );
   const [compiled, setCompiled] = useState("");
   const [selectionEnd, setSelectionEnd] = useState(0);
