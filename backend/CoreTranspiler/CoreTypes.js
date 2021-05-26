@@ -1,15 +1,12 @@
 module.exports.File = class {
   type = "file";
   name;
-  imports;
-  contains;
-  exports;
+  imports = [];
+  contains = [];
+  exports = [];
 
-  constructor(name, imports, contains, exports) {
+  constructor(name) {
     this.name = name;
-    this.imports = imports;
-    this.contains = contains;
-    this.exports = exports;
   }
 };
 

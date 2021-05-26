@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 app.post("/javascript", (req, res) => {
   const t = new CoreTranspiler(req.body.code);
   t.Transpile();
-  res.json("lol");
+  res.json(t.ECO);
 });
 
 app.post("/csharp", (req, res) => {

@@ -29,7 +29,8 @@ const Header: FunctionalComponent = () => {
       body: JSON.stringify({ code }),
     });
     const csharpCode = await csharp.json();
-    setCompiled(`JAVASCRIPT:\n\n${jsCode}\nC#:\n\n${csharpCode}`);
+
+    console.log(jsCode);
   };
 
   useEffect(() => {
