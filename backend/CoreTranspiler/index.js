@@ -82,20 +82,17 @@ module.exports = class CoreTranspiler {
   Class(EcoClass) {
     const contextObj = this.context[this.context.length - 1];
 
-    if (contextObj.type === "file" || contextObj.type === "module") {
-      if (contextObj.type === "file") {
-        let main = this.ECO.contains.find((module) => module.name === "main");
-        if (!main) {
-          main = new CoreTypes.Module("main");
-          this.ECO.contains.push(main);
-        }
-        main.public.classes.push(EcoClass);
-        this.context.push(main);
+    if (contextObj.type === "file") {
+      let main = this.ECO.contains.find((module) => module.name === "main");
+      if (!main) {
+        main = new CoreTypes.Module("main");
+        this.ECO.contains.push(main);
       }
-      if (contextObj.type === "module") {
-        contextObj.public.classes.push(EcoClass);
-        this.context.push(EcoClass);
-      }
+      main.public.classes.push(EcoClass);
+      this.context.push(main);
+    } else if (contextObj.type === "module") {
+      contextObj.public.classes.push(EcoClass);
+      this.context.push(EcoClass);
     } else {
       throw new Error(
         `Error at ${
@@ -107,7 +104,29 @@ module.exports = class CoreTranspiler {
     }
   }
 
-  Function(EcoFunction) {}
+  Function(EcoFunction) {
+    const contextObj = this.context[this.context.length - 1];
+    if (contextObj.type === "file") {
+      let main = this.ECO.contains.find((module) => module.name === "main");
+      if (!main) {
+        main = new CoreTypes.Module("main");
+        this.ECO.contains.push(main);
+      }
+      main.public.functions.push(EcoFunction);
+      this.context.push(EcoFunction);
+    } else if (contextObj.type === "module" || contextObj.type === "class") {
+      contextObj.public.functions.push(EcoFunction);
+      this.context.push(EcoFunction);
+    } else {
+      throw new Error(
+        `Error at ${
+          this.position + 1
+        }: Function can only be defined at file, module or class level, while this line tries to define it at ${
+          contextObj.type
+        } level`
+      );
+    }
+  }
 
   getDepth(line) {
     let depth = 0;

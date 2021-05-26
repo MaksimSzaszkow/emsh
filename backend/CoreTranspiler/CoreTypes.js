@@ -40,22 +40,18 @@ module.exports.Class = class {
   public = {
     variables: [],
     functions: [],
-    classes: [],
   };
   private = {
     variables: [],
     functions: [],
-    classes: [],
   };
   protected = {
     variables: [],
     functions: [],
-    classes: [],
   };
   static = {
     variables: [],
     functions: [],
-    classes: [],
   };
 
   constructor(name) {
